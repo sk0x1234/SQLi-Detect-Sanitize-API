@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>test</title>
+</head>
+
+<body>
+    <form id="searchbox">
+        <input type="text" name="searchbox1" value="">
+        <input type="submit">
+    </form>
+
+    <div id="reqDiv"></div>
+    <div id='searchDiv'></div>
+
+
+    <script>
+      
+    
+        searchbox.onsubmit = async (e) => {
+          e.preventDefault();
+          const form = document.getElementById("searchbox");
+        //   const divreq = document.getElementById('reqDiv');
+           
+            data = {
+              search : form.querySelector('input[name="searchbox1"]').value
+            };
+
+            // divreq.innerHTML += data+"<br/>";
+    
+            let response = await fetch('/v1/sanitized/input/', {
+                    method: 'POST', // or 'PUT'
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+            })
+    
+            const text = await response.text(); // read response body as text
+            const div = document.getElementById('searchDiv');
+            div.innerHTML += text+"<br/>";
+        };
+    </script>
+    </html>
